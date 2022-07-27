@@ -1,0 +1,34 @@
+on: [push, pull_request]
+
+jobs:
+
+  test:
+
+    name: ${{ matrix.lisp }}
+
+    strategy:
+      matrix:
+        lisp: [sbcl]
+    runs-on: ubuntu-20.04
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Install Roswell
+        env:
+          LISP: ${{ matrix.lisp }}
+        run: |
+          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+
+      - name: Prepare htss
+        run: ros run -e "(asdf:oos 'asdf:program-op :hunchentoot-simple-server)"
+
+      - name: Compress htss
+        run: gzip htss
+
+      - name: Upload htss
+        uses: actions/upload-artifact@v2
+        with:
+         name: htss
+         path: "./htss"
