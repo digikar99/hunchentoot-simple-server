@@ -1,13 +1,9 @@
 
-(defpackage :hunchentoot-simple-server
-  (:use :cl :alexandria :hunchentoot)
-  (:export :main))
-
 (in-package :hunchentoot-simple-server)
 
 (defvar *acceptor*)
 
-(opts:expand-opts
+(expand-opts
   (:help "Show this help text")
   (:no-ssl "Start the server without SSL")
   (:server-address "<address>:<port> on which to run the server [default: localhost:8000]"

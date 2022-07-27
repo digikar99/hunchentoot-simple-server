@@ -6,7 +6,8 @@
                "alexandria"
                "unix-opts"
                "swank")
-  :components ((:file "server"))
+  :components ((:file "utils")
+               (:file "server"))
   :entry-point "hunchentoot-simple-server:main"
   :perform (program-op (o c)
              (dolist (thread (uiop:symbol-call :bt :all-threads))
