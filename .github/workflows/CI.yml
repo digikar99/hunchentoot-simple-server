@@ -36,8 +36,8 @@ jobs:
     - name: Compress htss
       run: gzip htss
 
-    - name: Upload htss
+    - name: Upload htss.gz
       uses: actions/upload-artifact@v2
       with:
-       name: htss
-       path: "./htss"
+       name: htss.gz
+       path: "./htss.gz"
