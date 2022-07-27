@@ -48,3 +48,4 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'true'
         files: htss.gz
+        release_tag: test-artifact
