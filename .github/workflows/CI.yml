@@ -39,5 +39,12 @@ jobs:
     - name: Upload htss.gz
       uses: actions/upload-artifact@v2
       with:
-       name: htss.gz
-       path: "./htss.gz"
+        name: htss.gz
+        path: htss.gz
+
+    - name: Publish htss.gz
+      uses: SierraSoftworks/gh-releases@v1.0.4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        overwrite: 'true'
+        files: htss.gz
