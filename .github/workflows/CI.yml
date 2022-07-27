@@ -13,22 +13,31 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Install Roswell
-        env:
-          LISP: ${{ matrix.lisp }}
-        run: |
-          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+    - name: Update $PATH
+      run: |
+        echo $PATH
+        echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+    - name: Check $PATH
+      run: echo $PATH
 
-      - name: Prepare htss
-        run: ros run -e "(asdf:oos 'asdf:program-op :hunchentoot-simple-server)"
+    - name: Download implementation
+      env:
+        LISP: ${{ matrix.lisp }}
+      run: |
+        pwd
+        ls -l
+        bash <(curl -s https://raw.githubusercontent.com/digikar99/lisp-travis-lite/master/run.sh)
 
-      - name: Compress htss
-        run: gzip htss
+    - name: Prepare htss
+      run: cl --eval '(push "./" ql:*local-project-directories*)' --eval '(ql:quickload "hunchentoot-simple-server")' --eval "(asdf:oos 'asdf:program-op :hunchentoot-simple-server)"
 
-      - name: Upload htss
-        uses: actions/upload-artifact@v2
-        with:
-         name: htss
-         path: "./htss"
+    - name: Compress htss
+      run: gzip htss
+
+    - name: Upload htss
+      uses: actions/upload-artifact@v2
+      with:
+       name: htss
+       path: "./htss"
