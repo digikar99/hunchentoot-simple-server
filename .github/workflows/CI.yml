@@ -14,7 +14,6 @@ jobs:
         lisp: [sbcl]
         os: [ubuntu-20.04]
         version: [v0.1.0]
-        core_name: [htss-${{ matrix.os }}-${{ github.ref_name }}.gz]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -25,8 +24,12 @@ jobs:
       run: |
         echo $PATH
         echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+
     - name: Check $PATH
       run: echo $PATH
+
+    - name: Add $CORE_NAME
+      run: echo "CORE_NAME=htss-${{ matrix.os }}-${{ github.ref_name }}" >> $GITHUB_ENV
 
     - name: Download implementation
       env:
@@ -41,20 +44,20 @@ jobs:
 
 
     - name: Rename htss
-      run: mv htss ${{ matrix.core_name }}
+      run: mv htss $CORE_NAME
 
     - name: Compress htss
-      run: gzip htss
+      run: gzip $CORE_NAME
 
     - name: Upload htss
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.core_name }}
-        path: ${{ matrix.core_name }}
+        name: $CORE_NAME.gz
+        path: $CORE_NAME.gz
 
     - name: Publish htss
       uses: SierraSoftworks/gh-releases@v1.0.4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'true'
-        files: ${{ matrix.core_name }}
+        files: $CORE_NAME.gz
