@@ -15,26 +15,26 @@ So that something as short as the following gets the work done.
     (:swank-port \"Port number at which to start swank [default: 8080]\" #'parse-integer)
     (:debug \"Run in debug mode if specified\" #'identity))"
   `(opts:define-opts
-     ,@(let* ((used-short-names (make-hash-table))
-              (get-unique-short-name
-                (lambda (name)
-                  (loop for ch across name
-                        do (when (and (not (gethash ch used-short-names))
-                                      (alpha-char-p ch))
-                             (setf (gethash ch used-short-names) t)
-                             (return ch))
-                        finally
-                           (error "Could not find a unique short name for ~D" name)))))
-         (loop for description in descriptions
-               collect
-               (destructuring-bind (name description &optional
-                                                       parser required short)
-                   description
-                 (let ((name-string (string-downcase (symbol-name name))))
-                   `(:name ,name
-                     :description ,description
-                     :short ,(or short (funcall get-unique-short-name
-                                                name-string))
-                     :required ,required
-                     :long ,name-string
-                     :arg-parser ,parser)))))))
+       ,@(let* ((used-short-names (make-hash-table))
+                (get-unique-short-name
+                  (lambda (name)
+                    (loop for ch across name
+                          do (when (and (not (gethash ch used-short-names))
+                                        (alpha-char-p ch))
+                               (setf (gethash ch used-short-names) t)
+                               (return ch))
+                          finally
+                             (error "Could not find a unique short name for ~D" name)))))
+           (loop for description in descriptions
+                 collect
+                 (destructuring-bind (name description &optional
+                                                         parser required short)
+                     description
+                   (let ((name-string (string-downcase (symbol-name name))))
+                     `(:name ,name
+                       :description ,description
+                       :short ,(or short (funcall get-unique-short-name
+                                                  name-string))
+                       :required ,required
+                       :long ,name-string
+                       :arg-parser ,parser)))))))
