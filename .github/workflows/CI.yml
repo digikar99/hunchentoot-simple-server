@@ -1,4 +1,7 @@
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
 
@@ -10,6 +13,7 @@ jobs:
       matrix:
         lisp: [sbcl]
         os: [ubuntu-20.04]
+        version: [v0.1.0]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -40,7 +44,7 @@ jobs:
     - name: Upload htss.gz
       uses: actions/upload-artifact@v2
       with:
-        name: htss-${{ matrix.os }}.gz
+        name: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
         path: htss.gz
 
     - name: Publish htss.gz
@@ -48,4 +52,4 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'true'
-        files: htss.gz
+        files: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
