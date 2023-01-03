@@ -52,12 +52,12 @@ jobs:
     - name: Upload htss
       uses: actions/upload-artifact@v2
       with:
-        name: $CORE_NAME.gz
-        path: $CORE_NAME.gz
+        name: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
+        path: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
 
     - name: Publish htss
       uses: SierraSoftworks/gh-releases@v1.0.4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'true'
-        files: $CORE_NAME.gz
+        files: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
