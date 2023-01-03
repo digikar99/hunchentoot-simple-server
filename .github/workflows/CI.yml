@@ -14,6 +14,7 @@ jobs:
         lisp: [sbcl]
         os: [ubuntu-20.04]
         version: [v0.1.0]
+        core_name: [htss-${{ matrix.os }}-${{ github.ref_name }}.gz]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -38,18 +39,22 @@ jobs:
     - name: Prepare htss
       run: cl --eval '(push "./" ql:*local-project-directories*)' --eval '(ql:quickload "hunchentoot-simple-server")' --eval "(asdf:oos 'asdf:program-op :hunchentoot-simple-server)"
 
+
+    - name: Rename htss
+      run: mv htss ${{ matrix.core_name }}
+
     - name: Compress htss
       run: gzip htss
 
-    - name: Upload htss.gz
+    - name: Upload htss
       uses: actions/upload-artifact@v2
       with:
-        name: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
-        path: htss.gz
+        name: ${{ matrix.core_name }}
+        path: ${{ matrix.core_name }}
 
-    - name: Publish htss.gz
+    - name: Publish htss
       uses: SierraSoftworks/gh-releases@v1.0.4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'true'
-        files: htss-${{ matrix.os }}-${{ github.ref_name }}.gz
+        files: ${{ matrix.core_name }}
