@@ -9,7 +9,8 @@ jobs:
     strategy:
       matrix:
         lisp: [sbcl]
-    runs-on: ubuntu-20.04
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
 
     steps:
 
@@ -39,7 +40,7 @@ jobs:
     - name: Upload htss.gz
       uses: actions/upload-artifact@v2
       with:
-        name: htss.gz
+        name: htss-${{ matrix.os }}.gz
         path: htss.gz
 
     - name: Publish htss.gz
@@ -48,4 +49,3 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'true'
         files: htss.gz
-        release_tag: test-artifact
