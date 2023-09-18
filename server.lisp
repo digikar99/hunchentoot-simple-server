@@ -1,4 +1,3 @@
-
 (in-package :hunchentoot-simple-server)
 
 (defvar *acceptor*)

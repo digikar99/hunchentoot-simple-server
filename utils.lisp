@@ -1,10 +1,4 @@
-
-(defpackage :hunchentoot-simple-server
-  (:use :cl :alexandria :hunchentoot)
-  (:export :main))
-
 (in-package :hunchentoot-simple-server)
-(rename-package :shasht :json)
 
 (defmacro expand-opts (&body descriptions)
   "Each description should be of the format
