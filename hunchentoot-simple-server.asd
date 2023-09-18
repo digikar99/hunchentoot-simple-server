@@ -4,8 +4,12 @@
                "alexandria"
                "unix-opts"
                "swank"
-               "shasht")
-  :components ((:file "utils")
+               "shasht"
+               ;; plugins
+               "cl-slug"
+               "trivial-sanitize"
+               "cl-who"
+               "local-time")
   :serial t
   :components ((:file "package")
                (:file "utils")

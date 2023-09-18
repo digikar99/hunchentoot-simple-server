@@ -1,0 +1,37 @@
+.comment-wrapper{
+    padding: 15px;
+    padding-right: 0px;
+}
+
+.comment{
+    padding: 15px;
+    padding-right:15px;
+    border-left: solid 2px;
+}
+
+.comment-who, .comment-datetime{
+    font-weight: bold;
+}
+
+.comment-body{
+    padding: 15px;
+}
+
+.comment-add-comment{
+    padding:15px;
+}
+
+.comment-reply-field{
+    padding: 6px;
+}
+
+.comment-reply-form{
+    padding: 6px;
+    border: solid 2px;
+    border-color: #666;
+    border-radius:3px;
+}
+
+.comment-reply-field > textarea{
+    width:100%;
+}
